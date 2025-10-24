@@ -154,6 +154,94 @@ This covers the **most commonly asked MongoDB queries & concepts for a quick int
 
 ---
 
-If you want, I can make a **“super short one-page MongoDB cheat sheet”** with **all commands and operators in one glance**, perfect for last-minute 5-min revision.
+Absolutely! Here’s a **quick MongoDB vs SQL query comparison** for **last-minute interview prep**, covering the most commonly asked operations.
 
-Do you want me to make that?
+---
+
+## **1️⃣ Select / Find**
+
+| SQL                                             | MongoDB                                                        |
+| ----------------------------------------------- | -------------------------------------------------------------- |
+| `SELECT * FROM customers;`                      | `db.customers.find();`                                         |
+| `SELECT name, age FROM customers WHERE age>25;` | `db.customers.find({age: {$gt: 25}}, {name:1, age:1, _id:0});` |
+
+---
+
+## **2️⃣ Insert**
+
+| SQL                                                           | MongoDB                                                                     |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `INSERT INTO customers (name, age) VALUES ('Rahul', 28);`     | `db.customers.insertOne({name:"Rahul", age:28});`                           |
+| `INSERT INTO customers VALUES (1,'Rahul',28),(2,'Seema',30);` | `db.customers.insertMany([{name:"Rahul", age:28},{name:"Seema", age:30}]);` |
+
+---
+
+## **3️⃣ Update**
+
+| SQL                                               | MongoDB                                                    |
+| ------------------------------------------------- | ---------------------------------------------------------- |
+| `UPDATE customers SET age=29 WHERE name='Rahul';` | `db.customers.updateOne({name:"Rahul"}, {$set:{age:29}});` |
+| `UPDATE customers SET age=age+1 WHERE age>25;`    | `db.customers.updateMany({age:{$gt:25}}, {$inc:{age:1}});` |
+
+---
+
+## **4️⃣ Delete**
+
+| SQL                                         | MongoDB                                    |
+| ------------------------------------------- | ------------------------------------------ |
+| `DELETE FROM customers WHERE name='Rahul';` | `db.customers.deleteOne({name:"Rahul"});`  |
+| `DELETE FROM customers WHERE age<20;`       | `db.customers.deleteMany({age:{$lt:20}});` |
+
+---
+
+## **5️⃣ Aggregate / Group By**
+
+| SQL                                                   | MongoDB                                                                   |
+| ----------------------------------------------------- | ------------------------------------------------------------------------- |
+| `SELECT dept, COUNT(*) FROM customers GROUP BY dept;` | `db.customers.aggregate([{$group:{_id:"$dept", count:{$sum:1}}}]);`       |
+| `SELECT dept, AVG(age) FROM customers GROUP BY dept;` | `db.customers.aggregate([{$group:{_id:"$dept", avgAge:{$avg:"$age"}}}]);` |
+
+---
+
+## **6️⃣ Joins / Lookup**
+
+| SQL                                                                           | MongoDB                                                                                                           |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `SELECT c.name, o.item FROM customers c JOIN orders o ON c.id=o.customer_id;` | `db.customers.aggregate([{$lookup:{from:"orders", localField:"_id", foreignField:"customer_id", as:"orders"}}]);` |
+
+---
+
+## **7️⃣ Sorting & Limiting**
+
+| SQL                                                 | MongoDB                                       |
+| --------------------------------------------------- | --------------------------------------------- |
+| `SELECT * FROM customers ORDER BY age ASC LIMIT 5;` | `db.customers.find().sort({age:1}).limit(5);` |
+
+---
+
+## **8️⃣ Transactions**
+
+| SQL                                      | MongoDB                                                                                                                          |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `START TRANSACTION; UPDATE ...; COMMIT;` | `const session=db.getMongo().startSession(); session.startTransaction(); ... session.commitTransaction(); session.endSession();` |
+
+---
+
+## **9️⃣ Views**
+
+| SQL                                                                    | MongoDB                                                                    |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `CREATE VIEW young_customers AS SELECT * FROM customers WHERE age<30;` | `db.createView("youngCustomers", "customers", [{$match:{age:{$lt:30}}}]);` |
+
+---
+
+### **Key Takeaways**
+
+* **SQL** uses tables, rows, joins; **MongoDB** uses collections, documents, aggregation pipelines.
+* **Joins** in MongoDB are done via `$lookup`.
+* **GROUP BY** in SQL → `$group` in MongoDB.
+* **Transactions, Views, Sorting, Limiting** all have equivalents in MongoDB, but syntax is different.
+
+---
+
+
