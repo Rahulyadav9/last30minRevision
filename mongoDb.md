@@ -117,9 +117,11 @@ db.customers.aggregate([
 ## **6️⃣ Advanced Concepts**
 
 **Q13. What is sharding?**
-
-* Horizontal scaling of MongoDB across multiple servers.
-* **Shard key** decides how data is distributed.
+| **Term**       | **Explanation**                                                                                                                                                              |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Definition** | **Sharding** is the process of **splitting large datasets into smaller, faster, and more manageable pieces (called *shards*)** that are distributed across multiple servers. |
+| **Purpose**    | To **scale horizontally** — handle more data and higher traffic by using multiple machines instead of one big one.                                                           |
+| **Why needed** | When a single MongoDB server can no longer store or process all data efficiently (e.g., large e-commerce, social media, IoT apps).                                           |
 
 **Q14. What is replication?**
 
