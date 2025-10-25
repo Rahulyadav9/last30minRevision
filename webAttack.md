@@ -66,9 +66,6 @@ throw new Error('Untrusted certificate!');
 | **Benefits** | Prevents fake certificates or MitM attacks using compromised CAs. |
 | **Risk** | If you change your real certificate but forget to update pins → clients will **fail to connect** (so use carefully). |
 
----
-
-### 🧩 **In Short**
 
 | Feature | HSTS | Certificate Pinning |
 |----------|-------|--------------------|
@@ -78,9 +75,7 @@ throw new Error('Untrusted certificate!');
 | **Effect** | Forces HTTPS only | Ensures server identity |
 | **Failure Impact** | User may see HTTP only warning | Connection fails (can’t bypass) |
 
----
 
-Would you like me to give you a **real-world example** (like how Amazon or a banking app uses both HSTS and pinning together)?
 ```
 
 
