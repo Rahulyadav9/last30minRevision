@@ -1,29 +1,20 @@
-# Web security attacks — quick note (easy language)
+# Web Security Attacks — Summary
 
-Below is a **clear, concise Markdown table** you can share. Each row shows **what the attack is**, **how attackers do it**, and **practical ways to secure** against it.
-
-```md
-| Attack | What it is (simple) | How attackers do it | How to secure (practical steps) |
-|-------|----------------------|---------------------|----------------------------------|
-| XSS (Cross-Site Scripting) | Attacker injects malicious JavaScript into pages viewed by other users. | They submit script in forms, comments or URL parameters; the browser executes it in victims' pages. | Escape/encode output, use Content-Security-Policy (CSP), validate inputs, use templating that auto-escapes, set HttpOnly cookies. |
-| SQL Injection (SQLi) | Attacker injects SQL to read/modify your database. | They send crafted input that gets concatenated into SQL (e.g. `'; DROP TABLE users; --`). | Use parameterized queries/prepared statements, ORMs, validate inputs, least-privilege DB user, WAF. |
-| CSRF (Cross-Site Request Forgery) | Attacker tricks a logged-in user's browser to perform unwanted actions. | Victim visits a malicious page that causes the browser to submit a request to your site (using cookies). | Use CSRF tokens, require same-site cookies (`SameSite`), require Authorization headers, validate origin/referer. |
-| IDOR (Insecure Direct Object Reference) / Broken Access Control | Users access objects (orders, profiles) they shouldn't. | Attacker changes IDs in URLs or requests (e.g. `/order/123` → `/order/122`). | Enforce server-side authorization checks for every request, don't rely on obscurity, use per-user ACLs. |
-| SSRF (Server-Side Request Forgery) | Attacker makes your server send requests to internal systems. | They supply a URL that your server fetches (e.g. image or webhook) and point it to internal IPs. | Validate/whitelist outbound URLs, block private IP ranges, restrict metadata service access, use egress proxies. |
-| RCE (Remote Code Execution) | Attacker runs arbitrary code on your server. | Via unsafe deserialization, eval of user input, vulnerable native modules. | Avoid `eval`, sandbox untrusted code, keep dependencies updated, use principle of least privilege, run processes in containers. |
-| XXE (XML External Entity) | Malicious XML triggers the parser to fetch local/external files. | Attacker supplies XML with external entity pointing to local files or URLs. | Disable external entity resolution in XML parsers, prefer JSON, validate inputs. |
-| Clickjacking | Attacker tricks a user into clicking a hidden UI inside a frame. | Page is embedded in an invisible `<iframe>` and user clicks something unknowingly. | Set `X-Frame-Options: DENY` or CSP `frame-ancestors`, use frame busting when needed. |
-| Broken Authentication (including session fixation) | Weak auth lets attackers impersonate users. | Predictable session IDs, long-lived tokens, stolen credentials, reuse of sessions after login. | Use strong password policies, MFA, short session expiry, rotate tokens, secure cookies (`HttpOnly`, `Secure`, `SameSite`), revoke on logout. |
-| Man-in-the-Middle (MitM) | Attacker intercepts traffic between client and server. | On insecure networks or via DNS hijack, attacker reads/modifies requests. | Enforce HTTPS/TLS, use HSTS, certificate pinning (where applicable), secure DNS (DNSSEC), use modern TLS configs. |
-| Directory Traversal | Attacker reads files outside allowed directories (e.g. `/etc/passwd`). | They use `../` or encoded variants in file path parameters. | Normalize and validate path inputs, restrict file access to safe directories, use safe APIs. |
-| Dependency / Supply-chain Attack | Malicious or compromised library added to your project. | Attacker publishes malicious package or compromises maintainer account. | Pin versions, review packages, run `npm audit`/Snyk, use lockfiles, install from trusted registries, CI SAST. |
-| Denial of Service (DoS) / Resource Exhaustion | Attack overloads your app causing downtime. | Flood of requests, CPU/memory heavy requests, or expensive queries. | Rate limiting, WAF, auto-scaling, timeouts, circuit breakers, resource quotas, validate inputs. |
-| Insecure Deserialization | Untrusted serialized data causes code execution or logic flaws. | Attacker crafts serialized payloads which cause application to instantiate harmful objects. | Avoid deserializing untrusted input, use safe formats (JSON), validate content, use signed payloads. |
-| MIME sniffing / Content Type attacks | Browser treats content as a different type and executes it. | Serving user content without correct headers, browser guesses type and runs scripts. | Set `X-Content-Type-Options: nosniff`, set correct `Content-Type` header, sanitize uploads. |
-| API abuse / Broken Object Level Auth | Unauthorized access via APIs (excess privileges). | Missing rate limits, missing per-user scoping, excessive data returned. | Enforce per-endpoint auth checks, rate limiting, pagination, field-level filtering/whitelisting. |
-```
-
----
-
-
-Which would you like?
+| Attack | What it is (Simple) | How Attackers Do It | How to Secure |
+|--------|----------------------|---------------------|----------------|
+| **XSS (Cross-Site Scripting)** | Injects malicious JS into web pages seen by others. | Injecting `<script>` tags or HTML via forms, comments, or URLs that browsers execute. | Escape/encode output, use CSP, validate inputs, use HttpOnly cookies. |
+| **SQL Injection (SQLi)** | Injects SQL code to access/modify database. | Sending crafted input like `'; DROP TABLE users; --` through API or form. | Use prepared statements, ORM, validate input, least-privilege DB user. |
+| **CSRF (Cross-Site Request Forgery)** | Forces logged-in user’s browser to perform unwanted actions. | Malicious page sends a request using victim’s cookies to your app. | Use CSRF tokens, SameSite cookies, validate origin/referer. |
+| **IDOR / Broken Access Control** | Users access resources they shouldn’t. | Changing IDs in URL like `/user/2` to `/user/1`. | Always check user permissions on server side. |
+| **SSRF (Server-Side Request Forgery)** | Forces your server to make requests to internal systems. | Sending a crafted URL to internal IP (e.g., 169.254.169.254). | Validate and whitelist URLs, block internal IP ranges. |
+| **RCE (Remote Code Execution)** | Executes arbitrary code on server. | Via `eval`, unsafe deserialization, or vulnerable dependencies. | Avoid `eval`, sandbox code, update dependencies, use least privilege. |
+| **XXE (XML External Entity)** | Exploits XML parsers to read local files or make requests. | Supplying XML with malicious entity definitions. | Disable external entity resolution, use JSON, validate XML. |
+| **Clickjacking** | Tricks users into clicking hidden elements. | Embedding page in transparent iframe. | Use `X-Frame-Options: DENY` or `Content-Security-Policy: frame-ancestors`. |
+| **Broken Authentication** | Weak login/session control. | Predictable tokens, session reuse, stolen credentials. | Use MFA, secure cookies, token expiry, rotate sessions. |
+| **Man-in-the-Middle (MitM)** | Intercepts communication between client and server. | On public Wi-Fi, DNS hijack, or SSL stripping. | Use HTTPS/TLS, enable HSTS, certificate pinning. |
+| **Directory Traversal** | Reads files outside web root. | Using `../` in file paths. | Sanitize and validate paths, restrict file access. |
+| **Dependency Attack** | Using malicious libraries. | Installing compromised NPM packages. | Use lockfiles, verify dependencies, scan with `npm audit`. |
+| **Denial of Service (DoS)** | Makes server unavailable by overload. | Flooding with requests or heavy operations. | Use rate limiting, WAF, caching, scaling, input validation. |
+| **Insecure Deserialization** | Executes logic from untrusted serialized data. | Crafting fake serialized objects. | Avoid unsafe deserialization, use JSON, validate input. |
+| **MIME Sniffing Attack** | Browser misinterprets file type and runs code. | Uploads or files served without headers. | Set `X-Content-Type-Options: nosniff`, correct `Content-Type`. |
+| **API Abuse / BOLA** | Unauthorized access via weak APIs. | Missing access control or rate limits. | Add per-user auth, rate limiting, validate all API inputs. |
