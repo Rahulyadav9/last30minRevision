@@ -62,7 +62,6 @@ throw new Error('Untrusted certificate!');
 }
 });
 
-```|
 | **Benefits** | Prevents fake certificates or MitM attacks using compromised CAs. |
 | **Risk** | If you change your real certificate but forget to update pins → clients will **fail to connect** (so use carefully). |
 
@@ -76,7 +75,6 @@ throw new Error('Untrusted certificate!');
 | **Failure Impact** | User may see HTTP only warning | Connection fails (can’t bypass) |
 
 
-```
 
 
 
