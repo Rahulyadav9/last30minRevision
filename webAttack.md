@@ -18,3 +18,23 @@
 | **Insecure Deserialization** | Executes logic from untrusted serialized data. | Crafting fake serialized objects. | Avoid unsafe deserialization, use JSON, validate input. |
 | **MIME Sniffing Attack** | Browser misinterprets file type and runs code. | Uploads or files served without headers. | Set `X-Content-Type-Options: nosniff`, correct `Content-Type`. |
 | **API Abuse / BOLA** | Unauthorized access via weak APIs. | Missing access control or rate limits. | Add per-user auth, rate limiting, validate all API inputs. |
+
+
+
+
+
+---
+
+### 🧩 **In Short**
+
+| Feature | HSTS | Certificate Pinning |
+|----------|-------|--------------------|
+| **Protects from** | HTTP downgrade attacks (SSL stripping) | Fake or compromised SSL certificates |
+| **Used by** | Web browsers | Mobile apps, custom HTTPS clients |
+| **Configured via** | HTTP response header | App or server code |
+| **Effect** | Forces HTTPS only | Ensures server identity |
+| **Failure Impact** | User may see HTTP only warning | Connection fails (can’t bypass) |
+
+---
+
+
