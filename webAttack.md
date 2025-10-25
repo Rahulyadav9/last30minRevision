@@ -20,8 +20,51 @@
 | **API Abuse / BOLA** | Unauthorized access via weak APIs. | Missing access control or rate limits. | Add per-user auth, rate limiting, validate all API inputs. |
 
 
+## **HSTS** and **Certificate Pinning** are *important web security mechanisms* related to HTTPS.
+Let’s break them down clearly and simply 👇
 
+---
 
+## 🛡️ **1. HSTS (HTTP Strict Transport Security)**
+
+| **Aspect**           | **Explanation**                                                                                                                        |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Full form**        | HTTP Strict Transport Security                                                                                                         |
+| **Purpose**          | Forces browsers to always use **HTTPS**, never HTTP.                                                                                   |
+| **Why needed**       | Prevents attacks like **SSL stripping** (where attackers downgrade HTTPS → HTTP).                                                      |
+| **How it works**     | The server sends a special response header to the browser:                                                                             |
+| **Header Example**   | `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`                                                              |
+| **Browser behavior** | After seeing this header once, the browser will **automatically use HTTPS** for all future visits (for the specified `max-age`).       |
+| **Benefits**         | 1. Prevents users from accidentally visiting `http://` versions. <br> 2. Protects against man-in-the-middle attacks.                   |
+| **Example**          | - First visit: browser connects via HTTPS, gets HSTS header. <br> - Next time: browser won’t even try HTTP — it forces HTTPS directly. |
+
+---
+
+## 🔒 **2. Certificate Pinning**
+
+| **Aspect**                                                       | **Explanation**                                                                                                                                                                                                                      |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Purpose**                                                      | Ensures your app or browser **only trusts a specific SSL/TLS certificate or public key**.                                                                                                                                            |
+| **Why needed**                                                   | Prevents attackers from using **fraudulent certificates** issued by compromised Certificate Authorities (CAs).                                                                                                                       |
+| **How it works**                                                 | Your app “pins” a known certificate or public key fingerprint. When connecting to a server, it checks if the certificate matches the pinned one. If not — it **rejects the connection**, even if the certificate is otherwise valid. |
+| **Types**                                                        | - **Static Pinning:** Hardcode cert fingerprint in app (common in mobile apps). <br> - **Dynamic Pinning:** Downloaded securely at runtime.                                                                                          |
+| **Example (Node.js)**                                            | ```js                                                                                                                                                                                                                                |
+| const https = require('https');                                  |                                                                                                                                                                                                                                      |
+| const pinnedFingerprint = 'AB:CD:12:34:...';                     |                                                                                                                                                                                                                                      |
+| https.get('[https://mybank.com](https://mybank.com)', (res) => { |                                                                                                                                                                                                                                      |
+| const cert = res.socket.getPeerCertificate();                    |                                                                                                                                                                                                                                      |
+| if (cert.fingerprint !== pinnedFingerprint) {                    |                                                                                                                                                                                                                                      |
+
+```
+throw new Error('Untrusted certificate!');
+```
+
+}
+});
+
+```|
+| **Benefits** | Prevents fake certificates or MitM attacks using compromised CAs. |
+| **Risk** | If you change your real certificate but forget to update pins → clients will **fail to connect** (so use carefully). |
 
 ---
 
@@ -36,5 +79,9 @@
 | **Failure Impact** | User may see HTTP only warning | Connection fails (can’t bypass) |
 
 ---
+
+Would you like me to give you a **real-world example** (like how Amazon or a banking app uses both HSTS and pinning together)?
+```
+
 
 
