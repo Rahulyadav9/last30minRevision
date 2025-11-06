@@ -1,5 +1,3 @@
-Perfect 👍 — let’s go over **AWS Lambda** — everything you need to **master it for an interview (30 min)** with **examples, architecture, and common use cases** 👇
-
 ---
 
 ## 🧠 **1. What is AWS Lambda?**
