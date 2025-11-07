@@ -168,6 +168,44 @@ setInterval(pollOrders, 5000);
 
 ---
 
-If you want, I can **draw a full Node.js microservices architecture diagram** with **API Gateway, Event Bus, multiple services, S3/RDS integration**, which is **interview-ready** and easy to explain in 5 minutes.
+Good question 👍 — both **Amazon SNS (Simple Notification Service)** and **Amazon SQS (Simple Queue Service)** are AWS messaging services, but they serve *different purposes* and are often **used together** in microservices or event-driven systems.
 
-Do you want me to do that?
+Here’s a **clear comparison table** 👇
+
+| Feature              | **Amazon SNS (Simple Notification Service)**                                        | **Amazon SQS (Simple Queue Service)**                                       |
+| -------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **Type**             | **Pub/Sub (Publish–Subscribe)** messaging service                                   | **Message Queue** service                                                   |
+| **Purpose**          | Broadcast messages to *multiple subscribers*                                        | Store messages for *asynchronous processing* by consumers                   |
+| **Message Delivery** | Push-based (SNS pushes messages to subscribers like SQS, Lambda, Email, HTTP, etc.) | Pull-based (consumers poll the queue to receive messages)                   |
+| **Subscribers**      | Can be SQS queues, Lambda functions, HTTP endpoints, Email, SMS, etc.               | Typically applications, workers, or microservices                           |
+| **Durability**       | Does not persist messages for long (best effort delivery)                           | Messages are persisted until processed or expire                            |
+| **Use Case**         | Send a single message to multiple receivers at once (fan-out model)                 | Reliable message delivery between services (decouple producer & consumer)   |
+| **Example**          | Send notification to multiple microservices when a new user registers               | Process user signup events asynchronously (store, retry, delete on success) |
+
+---
+
+### 🧠 Example Scenario (Together)
+
+Imagine you have an **e-commerce app**:
+
+* When an order is placed:
+
+  * **SNS** sends a message to multiple subscribers:
+
+    * One **SQS queue** for order processing service
+    * Another **SQS queue** for email notification service
+    * A **Lambda function** for analytics logging
+
+Each service then processes its own messages *independently and asynchronously* from its **SQS queue**.
+
+---
+
+### ⚙️ Summary
+
+* **SNS → broadcast (pub/sub)**
+* **SQS → queue (point-to-point)**
+* **SNS + SQS together → scalable, decoupled, reliable architecture**
+
+---
+
+
