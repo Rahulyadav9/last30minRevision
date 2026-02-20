@@ -245,3 +245,64 @@ Absolutely! Here’s a **quick MongoDB vs SQL query comparison** for **last-minu
 ---
 
 
+# MongoDB – Why Order Matters in Compound Index
+
+## Q: Why does order matter in compound index?
+
+### A:
+Because MongoDB follows the **Leftmost Prefix Rule**.
+
+Indexes are stored in B-Tree order starting from the **first field**.  
+MongoDB can only efficiently use the index if the query uses the leading fields.
+
+---
+
+## Example
+
+### Index:
+{ name: 1, age: 1 }
+
+Sorted internally like:
+(name → age)
+
+---
+
+### ✅ Works (Uses Index)
+- { name: "Rahul" }
+- { name: "Rahul", age: 25 }
+
+### ❌ Does NOT Work Efficiently
+- { age: 25 }
+
+Reason:
+Index is sorted by `name` first.
+Without `name`, MongoDB must scan many records.
+
+---
+
+## Leftmost Prefix Rule
+
+For index:
+{ a:1, b:1, c:1 }
+
+✔ { a }
+✔ { a, b }
+✔ { a, b, c }
+
+✖ { b }
+✖ { c }
+✖ { b, c }
+
+---
+
+## Golden Rule for Designing Compound Index
+
+1. Equality fields (=) first
+2. Range fields ($gt, $lt) next
+3. Sorting fields last
+
+---
+
+## One-Line Interview Answer
+
+Order matters because MongoDB uses B-Tree indexes and follows the leftmost prefix rule, meaning queries must include the leading fields of the index to use it efficiently.
