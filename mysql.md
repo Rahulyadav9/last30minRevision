@@ -1,6 +1,4 @@
-Got it! Here’s a **list of common MySQL interview questions and answers** you might face in a **client or backend role interview**. I’ll organize them by **basic, intermediate, and advanced** for clarity.
 
----
 
 ## **1️⃣ Basic MySQL Questions**
 
