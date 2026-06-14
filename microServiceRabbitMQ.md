@@ -1,4 +1,3 @@
-Here’s a **complete guide to Node.js microservices using RabbitMQ**, including **concepts, patterns, real-life example (Amazon-like shopping app), code snippets, and interview points**:
 
 ---
 
