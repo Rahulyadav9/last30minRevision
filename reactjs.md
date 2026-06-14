@@ -1,6 +1,3 @@
-Perfect 👍 — here’s a **“React.js 30-minute interview Q&A”** set curated **for 7+ years of experience** — covering **deep concepts, performance, design patterns, architecture, and real-world problem-solving**.
-
----
 
 ## ⚡ React.js Interview (Senior-Level — 30 mins, 7+ years exp)
 
