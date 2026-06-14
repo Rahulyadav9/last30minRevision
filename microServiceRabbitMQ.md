@@ -191,7 +191,3 @@ User -> OrderService -> Queue: order_queue -> PaymentService -> Queue: payment_q
 * Scalable horizontally
 
 ---
-
-If you want, I can **make a combined “Node.js Async Microservices Cheat Sheet”** comparing **Kafka vs RabbitMQ** with **code, flows, patterns, and real-life Amazon shopping example**, ready for **last-minute interview prep**.
-
-Do you want me to do that?
