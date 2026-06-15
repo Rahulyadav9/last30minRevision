@@ -1,6 +1,3 @@
-Perfect — here’s a **React Hooks Interview Q&A Set (for 7+ years experience)** — optimized for **last 30 minutes of interview prep** 🚀
-
-It’s divided into **Core Hooks**, **Advanced Hooks**, and **Real-world Scenarios** — all senior-level.
 
 ---
 
@@ -330,4 +327,3 @@ React executes hooks in the order they appear — that’s why conditional hooks
 
 ---
 
-Would you like me to give you a **“1-page cheat sheet” PDF** summarizing all React hooks with examples (ideal for last-minute revision)?
