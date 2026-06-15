@@ -1,6 +1,4 @@
-Here’s a **hard, last-30-minute Node.js interview QA** list for **experienced developers (5–8 years)**, including **security-focused questions like Helmet**, best practices, and tricky scenarios:
 
----
 
 ## **1️⃣ Node.js Core & Advanced**
 
