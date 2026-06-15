@@ -148,7 +148,3 @@
 10. CORS policies → only allow trusted origins
 
 ---
-
-If you want, I can **create a mini “Node.js security + advanced features cheat sheet”** with **5–10 hardest questions and code examples**, which you can **memorize in 10 minutes** for a client round.
-
-Do you want me to do that next?
