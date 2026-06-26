@@ -1,4 +1,3 @@
-Excellent 👌 — here’s a **complete AWS EC2 (Elastic Compute Cloud) interview guide (30 min)** designed for **experienced developers (7+ years)** — including theory, configuration, SSH connection, scaling, pricing, and example use cases.
 
 ---
 
